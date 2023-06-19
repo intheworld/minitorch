@@ -185,19 +185,21 @@ def reduce(
          fn(x_1, x_0)))`
     """
     def apply(ls: Iterable[float]) -> float:
-        if len(ls) == 0:
+        my_list = list(ls).copy()
+
+        if len(my_list) == 0:
             return start
-        else :
-            val = ls.pop()
-            return reduce(ls, fn(val, start))    
+        else:
+            current_value = my_list.pop()
+            return fn(current_value, apply(my_list))
     return apply
 
 
 def sum(ls: Iterable[float]) -> float:
     "Sum up a list using `reduce` and `add`."
-    reduce(add, 0.0)(ls)
+    return reduce(add, 0.0)(ls)
 
 
 def prod(ls: Iterable[float]) -> float:
     "Product of a list using `reduce` and `mul`."
-    reduce(mul, 1.0)(ls)
+    return reduce(mul, 1.0)(ls)

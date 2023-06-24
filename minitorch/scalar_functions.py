@@ -144,6 +144,7 @@ class Sigmoid(ScalarFunction):
 
     @staticmethod
     def forward(ctx: Context, a: float) -> float:
+        ctx.save_for_backward(a)
         if a < 0: 
             return math.exp(a) / (math.exp(a) + 1)
         else:
@@ -151,8 +152,9 @@ class Sigmoid(ScalarFunction):
 
     @staticmethod
     def backward(ctx: Context, d_output: float) -> float:
-        # TODO: Implement for Task 1.4.
-        raise NotImplementedError('Need to implement for Task 1.4')
+        (a,) = ctx.saved_values
+        tmp = math.exp(a) / (math.exp(a) + 1) if a < 0 else 1 / (1 + math.exp(-a))
+        return tmp * (1 - tmp)
 
 
 class ReLU(ScalarFunction):
@@ -160,12 +162,13 @@ class ReLU(ScalarFunction):
 
     @staticmethod
     def forward(ctx: Context, a: float) -> float:
+        ctx.save_for_backward(a)
         return max(a, 0.0)
 
     @staticmethod
     def backward(ctx: Context, d_output: float) -> float:
-        # TODO: Implement for Task 1.4.
-        raise NotImplementedError('Need to implement for Task 1.4')
+        (a,) = ctx.saved_values
+        return 0.0 if a < 0 else d_output
 
 
 class Exp(ScalarFunction):
@@ -178,8 +181,8 @@ class Exp(ScalarFunction):
 
     @staticmethod
     def backward(ctx: Context, d_output: float) -> float:
-        # TODO: Implement for Task 1.4.
-        raise NotImplementedError('Need to implement for Task 1.4')
+        (a,) = ctx.saved_values
+        return d_output * math.exp(a)
 
 
 class LT(ScalarFunction):
@@ -191,8 +194,7 @@ class LT(ScalarFunction):
 
     @staticmethod
     def backward(ctx: Context, d_output: float) -> Tuple[float, float]:
-        # TODO: Implement for Task 1.4.
-        raise NotImplementedError('Need to implement for Task 1.4')
+        return (0.0, 0.0)
 
 
 class EQ(ScalarFunction):
@@ -204,5 +206,4 @@ class EQ(ScalarFunction):
 
     @staticmethod
     def backward(ctx: Context, d_output: float) -> Tuple[float, float]:
-        # TODO: Implement for Task 1.4.
-        raise NotImplementedError('Need to implement for Task 1.4')
+        return (0.0, 0.0)

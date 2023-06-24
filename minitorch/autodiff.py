@@ -67,8 +67,20 @@ def topological_sort(variable: Variable) -> Iterable[Variable]:
     Returns:
         Non-constant Variables in topological order starting from the right.
     """
-    # TODO: Implement for Task 1.4.
-    raise NotImplementedError('Need to implement for Task 1.4')
+    visited = []
+    result = []
+    def visit(n: Variable):
+        if n.is_constant():
+            return
+        if n.unique_id in visited:
+            return
+        if not n.is_leaf():
+            for input in n.history.inputs:
+                visit(input)
+        visited.append(n.unique_id)
+        result.insert(0, n)
+    visit(variable)
+    return result
 
 
 def backpropagate(variable: Variable, deriv: Any) -> None:
@@ -82,8 +94,23 @@ def backpropagate(variable: Variable, deriv: Any) -> None:
 
     No return. Should write to its results to the derivative values of each leaf through `accumulate_derivative`.
     """
-    # TODO: Implement for Task 1.4.
-    raise NotImplementedError('Need to implement for Task 1.4')
+    result = topological_sort(variable)
+    node2driv = {}
+    node2driv[variable.unique_id] = deriv
+    for n in result:
+        if n.is_leaf():
+            continue
+        if n.unique_id in node2driv.keys():
+            deriv = node2driv[n.unique_id]
+        deriv_tmp = n.chain_rule(deriv)
+        for key, item in deriv_tmp:
+            if key.is_leaf():
+                key.accumulate_derivative(item)
+                continue
+            if key.unique_id in node2driv.keys():
+                node2driv[key.unique_id] += item
+            else:
+                node2driv[key.unique_id] = item
 
 
 @dataclass

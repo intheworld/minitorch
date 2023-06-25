@@ -93,8 +93,12 @@ def broadcast_index(
     Returns:
         None
     """
-    # TODO: Implement for Task 2.2.
-    raise NotImplementedError('Need to implement for Task 2.2')
+    lb = len(big_shape)
+    l = len(shape)
+    for i in range(l):
+        ib = i + lb - l
+        index = big_index[ib] if shape[i] != 1 else 0
+        out_index[i] = index
 
 
 def shape_broadcast(shape1: UserShape, shape2: UserShape) -> UserShape:

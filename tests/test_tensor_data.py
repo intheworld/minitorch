@@ -2,6 +2,8 @@ import pytest
 from hypothesis import given
 from hypothesis.strategies import DataObject, data
 
+import numpy as np
+
 import minitorch
 from minitorch import TensorData
 
@@ -118,6 +120,15 @@ def test_shape_broadcast() -> None:
 
     c = minitorch.shape_broadcast((2, 5), (5,))
     assert c == (2, 5)
+
+@pytest.mark.task2_2
+def test_broadcast_index() -> None:
+    big_index = [3, 1]
+    big_shape = np.array([5, 5])
+    shape = np.array([1, 5])
+    index = np.array(shape)
+    minitorch.broadcast_index(big_index, big_shape, shape, index)
+    assert (index == np.array([0, 1])).all()
 
 
 @given(tensor_data())

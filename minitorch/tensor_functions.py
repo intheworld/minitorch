@@ -210,7 +210,8 @@ class Permute(Function):
     @staticmethod
     def forward(ctx: Context, a: Tensor, order: Tensor) -> Tensor:
         ctx.save_for_backward(a.shape, a._tensor.strides)
-        return a._new(a._tensor.permute(*order))
+        ord = [int(order._tensor.get(i)) for i in order._tensor.indices()]
+        return a._new(a._tensor.permute(*ord))
 
     @staticmethod
     def backward(ctx: Context, grad_output: Tensor) -> Tuple[Tensor, float]:

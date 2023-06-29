@@ -359,12 +359,12 @@ def tensor_reduce(
         for i in range(len(out)):
             to_index(i, out_shape, out_index)
             o_index = index_to_position(out_index, out_strides)
-            out[out_index] = 0
             for j in range(a_shape[reduce_dim]):
                 a_index = out_index.copy()
                 a_index[reduce_dim] = j
                 pos_a = index_to_position(a_index, a_strides)
-                out[o_index] = fn(a_storage[pos_a], out[out_index])
+                v = fn(a_storage[pos_a], out[o_index])
+                out[o_index] = v
     return _reduce
 
 

@@ -303,8 +303,45 @@ def _tensor_matrix_multiply(
     a_batch_stride = a_strides[0] if a_shape[0] > 1 else 0
     b_batch_stride = b_strides[0] if b_shape[0] > 1 else 0
 
-    # TODO: Implement for Task 3.2.
-    raise NotImplementedError('Need to implement for Task 3.2')
+    assert a_shape[-1] == b_shape[-2]
+
+    iteration_n = a_shape[-1]
+
+    for i in prange(len(out)):
+        out_index = np.zeros(MAX_DIMS, np.int32)
+        to_index(i, out_shape, out_index)
+        o = index_to_position(out_index, out_strides)
+        a_index = np.copy(out_index)
+        b_index = np.zeros(MAX_DIMS, np.int32)
+        a_index[len(out_shape) - 1] = 0
+        b_index[len(out_shape) - 2] = 0
+        b_index[len(out_shape) - 1] = out_index[len(out_shape) - 1]
+        temp_sum = 0
+        for w in range(iteration_n):
+            a_index[len(out_shape) - 1] = w
+            b_index[len(out_shape) - 2] = w
+
+            j = index_to_position(a_index, a_strides)
+            m = index_to_position(b_index, b_strides)
+            temp_sum = temp_sum + a_storage[j] * b_storage[m]
+            # a_index = a_shape.copy()
+            # a_tmp_index = out_index.copy()
+            # a_tmp_shape = out_shape.copy()
+            # a_tmp_index[-1] = w
+            # a_tmp_shape[-1] = iteration_n
+            # broadcast_index(a_tmp_index, a_tmp_shape, a_shape, a_index) 
+            # a_pos = index_to_position(a_index, a_strides)
+
+            # b_index = b_shape.copy()
+            # b_tmp_index = out_index.copy()
+            # b_tmp_shape = out_shape.copy()
+            # b_tmp_index[-2] = w
+            # b_tmp_shape[-2] = iteration_n
+            # broadcast_index(b_tmp_index, b_tmp_shape, b_shape, b_index) 
+            # b_pos = index_to_position(b_index, b_strides)
+            # temp_sum = temp_sum + a_storage[a_pos] * b_storage[b_pos]
+
+        out[o] = temp_sum
 
 
 tensor_matrix_multiply = njit(parallel=True, fastmath=True)(_tensor_matrix_multiply)

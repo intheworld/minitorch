@@ -95,15 +95,15 @@ def _tensor_conv1d(
                 weight_index = np.array([out_channel, temp_j, temp_k])
                 w_pos = index_to_position(weight_index, s2)
                 if reverse:
-                    if out_idx - temp_k > 0:
+                    if out_idx - temp_k >= 0:
                         in_index = np.array([out_batch, temp_j, out_idx - temp_k])
                         in_pos = index_to_position(in_index, s1)
-                        val = val + (input[in_pos]*weight[w_pos])
+                        val = val + input[int(in_pos)]*weight[int(w_pos)]
                 else:
                     if width > out_idx + temp_k:
-                        in_index = np.array([out_batch, j, out_idx + temp_k])
+                        in_index = np.array([out_batch, temp_j, out_idx + temp_k])
                         in_pos = index_to_position(in_index, s1)
-                        val = val + (input[in_pos]*weight[w_pos])
+                        val = val + input[int(in_pos)]*weight[int(w_pos)]
         out[temp_i] = val
 
 

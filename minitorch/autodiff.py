@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Any, Iterable, List, Tuple
+from typing import Any, Iterable, Tuple
 
 from typing_extensions import Protocol
 
@@ -69,6 +69,7 @@ def topological_sort(variable: Variable) -> Iterable[Variable]:
     """
     visited = []
     result = []
+
     def visit(n: Variable):
         if n.is_constant():
             return

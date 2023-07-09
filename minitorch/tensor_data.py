@@ -64,8 +64,8 @@ def to_index(ordinal: int, shape: Shape, out_index: OutIndex) -> None:
     """
     ordinal = ordinal + 0
     for d in range(len(shape) - 1, -1, -1):
-         out_index[d] = ordinal % shape[d]
-         ordinal = ordinal // shape[d]
+        out_index[d] = ordinal % shape[d]
+        ordinal = ordinal // shape[d]
 
 
 def broadcast_index(
@@ -114,8 +114,8 @@ def shape_broadcast(shape1: UserShape, shape2: UserShape) -> UserShape:
     l2 = len(shape2)
     l = max(l1, l2)
     for i in range(l):
-        di1 = shape1[l1-1-i] if i < l1 else 0
-        di2 = shape2[l2-1-i] if i < l2 else 0
+        di1 = shape1[l1 - 1 - i] if i < l1 else 0
+        di2 = shape2[l2 - 1 - i] if i < l2 else 0
         if di1 > 1 and di2 > 1 and di1 != di2:
             raise IndexingError(f"shape1: {shape1} must match shape2: {shape2}.")
         resShape.insert(0, max(di1, di2))

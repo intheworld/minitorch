@@ -145,7 +145,7 @@ class Sigmoid(ScalarFunction):
     @staticmethod
     def forward(ctx: Context, a: float) -> float:
         ctx.save_for_backward(a)
-        if a < 0: 
+        if a < 0:
             return math.exp(a) / (math.exp(a) + 1)
         else:
             return 1 / (1 + math.exp(-a))

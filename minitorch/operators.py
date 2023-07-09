@@ -19,6 +19,7 @@ def id(x: float) -> float:
     "$f(x) = x$"
     return x
 
+
 def add(x: float, y: float) -> float:
     "$f(x, y) = x + y$"
     return x + y
@@ -93,13 +94,12 @@ def log_back(x: float, d: float) -> float:
 
 def inv(x: float) -> float:
     "$f(x) = 1/x$"
-    return 1 / x
+    return 1.0 / x
 
 
 def inv_back(x: float, d: float) -> float:
     r"If $f(x) = 1/x$ compute $d \times f'(x)$"
     return d * (-1 / (x * x))
-    
 
 
 def relu_back(x: float, d: float) -> float:

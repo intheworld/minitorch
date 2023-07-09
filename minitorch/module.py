@@ -35,7 +35,6 @@ class Module:
         for mod in self.modules():
             mod.train()
 
-
     def eval(self) -> None:
         "Set the mode of this module and all descendent modules to `eval`."
         self.training = False
@@ -62,7 +61,6 @@ class Module:
 
         return paramTupleList
 
-
     def parameters(self) -> Sequence[Parameter]:
         "Enumerate over all the parameters of this module and its descendents."
         paramList = []
@@ -72,7 +70,6 @@ class Module:
             paramList.extend(list(mod.parameters()))
         print(paramList)
         return paramList
-        
 
     def add_parameter(self, k: str, v: Any) -> Parameter:
         """

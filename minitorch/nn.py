@@ -4,7 +4,7 @@ from . import operators
 from .autodiff import Context
 from .fast_ops import FastOps
 from .tensor import Tensor
-from .tensor_functions import Function, rand, tensor
+from .tensor_functions import Function, rand
 
 
 def tile(input: Tensor, kernel: Tuple[int, int]) -> Tuple[Tensor, int, int]:
@@ -29,10 +29,10 @@ def tile(input: Tensor, kernel: Tuple[int, int]) -> Tuple[Tensor, int, int]:
 
     input = input.contiguous()
     input = input.view(batch, channel, tile_h, kh, tile_w, kw)
-    input = input.permute(0,1,2,4,3,5)
+    input = input.permute(0, 1, 2, 4, 3, 5)
 
     input = input.contiguous()
-    input = input.view(batch, channel, tile_h, tile_w, kw*kh)
+    input = input.view(batch, channel, tile_h, tile_w, kw * kh)
 
     return input, tile_h, tile_w
 
@@ -111,7 +111,7 @@ def softmax(input: Tensor, dim: int) -> Tensor:
     """
     input = input.exp()
     sum_along_axis = input.sum(dim)
-    return input/sum_along_axis
+    return input / sum_along_axis
 
 
 def logsoftmax(input: Tensor, dim: int) -> Tensor:

@@ -18,7 +18,7 @@ if TYPE_CHECKING:
     from typing import Callable, Optional
 
     from .tensor import Tensor
-    from .tensor_data import Index, Shape, Storage, Strides
+    from .tensor_data import Shape, Storage, Strides
 
 # TIP: Use `NUMBA_DISABLE_JIT=1 pytest tests/ -m task3_1` to run these tests without JIT.
 
@@ -300,8 +300,8 @@ def _tensor_matrix_multiply(
     Returns:
         None : Fills in `out`
     """
-    a_batch_stride = a_strides[0] if a_shape[0] > 1 else 0
-    b_batch_stride = b_strides[0] if b_shape[0] > 1 else 0
+    # a_batch_stride = a_strides[0] if a_shape[0] > 1 else 0
+    # b_batch_stride = b_strides[0] if b_shape[0] > 1 else 0
 
     assert a_shape[-1] == b_shape[-2]
 
@@ -316,13 +316,13 @@ def _tensor_matrix_multiply(
             a_index = a_shape.copy()
             a_tmp_index = out_index.copy()
             a_tmp_index[-1] = w
-            broadcast_index(a_tmp_index, out_shape, a_shape, a_index) 
+            broadcast_index(a_tmp_index, out_shape, a_shape, a_index)
             a_pos = index_to_position(a_index, a_strides)
 
             b_index = b_shape.copy()
             b_tmp_index = out_index.copy()
             b_tmp_index[-2] = w
-            broadcast_index(b_tmp_index, out_shape, b_shape, b_index) 
+            broadcast_index(b_tmp_index, out_shape, b_shape, b_index)
             b_pos = index_to_position(b_index, b_strides)
             temp_sum += a_storage[a_pos] * b_storage[b_pos]
 

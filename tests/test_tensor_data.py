@@ -121,6 +121,7 @@ def test_shape_broadcast() -> None:
     c = minitorch.shape_broadcast((2, 5), (5,))
     assert c == (2, 5)
 
+
 @pytest.mark.task2_2
 def test_broadcast_index() -> None:
     big_index = [3, 1]
